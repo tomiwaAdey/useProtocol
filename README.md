@@ -28,34 +28,33 @@ Identity
 - Enforces ownership verification of intellectual property (IP) before registration on the Use Protocol to maintain the integrity and legitimacy of transactions.
 - Implements a KYC Registry to manage and verify the KYC status of users engaging with the protocol. This registry utilises a predefined protobuf format for structure of fields, ensuring a standardised approach to user verification.
 
-    ```protobuf
-    syntax = "proto3";
+  ```protobuf
+  syntax = "proto3";
 
-    package kyc;
+  package kyc;
 
-    message KYC {
-      string full_name = 1;
-      string date_of_birth = 2;
-      Address address = 3;
-      string nationality = 4;
-      string document_type = 5;
-      string document_number = 6;
-      string document_expiry = 7;
-      string country_of_issue = 8;
-      string contact_number = 9;
-      string email_address = 10;
-    }
+  message KYC {
+    string full_name = 1;
+    string date_of_birth = 2;
+    Address address = 3;
+    string nationality = 4;
+    string document_type = 5;
+    string document_number = 6;
+    string document_expiry = 7;
+    string country_of_issue = 8;
+    string contact_number = 9;
+    string email_address = 10;
+  }
 
-    message Address {
-      string street = 1;
-      string city = 2;
-      string state = 3;
-      string postal_code = 4;
-      string country = 5;
-    }
+  message Address {
+    string street = 1;
+    string city = 2;
+    string state = 3;
+    string postal_code = 4;
+    string country = 5;
+  }
 
-    ```
-
+  ```
 
 -
 
@@ -67,69 +66,72 @@ Use IP
 - A UIP enables the transformation of static IP assets into dynamic, interactive tokens through a registration process that is secured by ZK proofs and publicly verifiable on the Ethereum blockchain.
 - Only a user that has undergone KYC and has a proof of ownership can register an IP on the Use Protocol
 - Component
-    - UIPR - The is the registrar for Use IP, it allows for trustless decentralised IP to be issued as tokens on the Ethereum Blockchain. Registration is done through smart-contracts, and ownership proven with ZK proofs and verifiable by anyone on the blockchain.
-    - IUIP - The interface for the UIP registrar
-    - UIPController - The UIP controller
-    - UIPHooks  - Smart contracts attached to Use IP for customisation. Allowing developers to implement different functionalities at different points in the IP lifecycle, such as before IP registration, after registration, after KYC.
 
-- **IP Ownership ZK Proofs**:
-    -
-    - Provides detailed methods for generating and verifying ZK proofs for patents, copyrights, trademarks, and NFT ownership, leveraging the power of ZK-SNARKs and other cryptographic techniques to ensure secure and private IP management.
+  - UIPR - The is the registrar for Use IP, it allows for trustless decentralised IP to be issued as tokens on the Ethereum Blockchain. Registration is done through smart-contracts, and ownership proven with ZK proofs and verifiable by anyone on the blockchain.
+  - IUIP - The interface for the UIP registrar
+  - UIPController - The UIP controller
+  - UIPHooks - Smart contracts attached to Use IP for customisation. Allowing developers to implement different functionalities at different points in the IP lifecycle, such as before IP registration, after registration, after KYC.
+
+- ## **IP Ownership ZK Proofs**:
+  - Provides detailed methods for generating and verifying ZK proofs for patents, copyrights, trademarks, and NFT ownership, leveraging the power of ZK-SNARKs and other cryptographic techniques to ensure secure and private IP management.
 
 IP Ownership ZK proofs
 
 - Implements zero-knowledge (ZK) proofs for each type of IP, ensuring ownership verification without compromising privacy or revealing sensitive information.
 - Each type of IP has a approach for proofing ownership:
 - Method for generating and verifying ZK proofs for patents, copyrights, trademarks, and NFT ownership, leveraging:
+
 1. Patent
-    - A ZK circuit to validate the match between the KYC details of the claimant and the patent owner details in the public government repository.
-    - Input: Encrypted KYC details and patent registration information.
-    - ZK Proof Generation: Prove that the encrypted details match the official patent owner’s information without disclosing the actual information.
-    - Verification: Confirm the proof of ownership without exposing sensitive patent details or personal information.
 
-    ```mermaid
-    sequenceDiagram
-        participant User
-        participant Platform
-        participant Blockchain
-        participant SmartContract
-        Note over User,SmartContract: Lifecycle of Proving Patent Ownership
-        User->>Platform: Submits patent details & KYC info
-        Platform->>Platform: Validates submission against public records
-        Note over Platform: Circuit Definition
-        Platform->>User: Initiates Trusted Setup
-        User->>User: Generates zk-SNARK proof using private info
-        Note over User: Proof Generation
-        User->>Blockchain: Submits zk-SNARK proof & verification key
-        Blockchain->>SmartContract: Invokes proof verification
-        Note over SmartContract: Proof Verification
-        SmartContract->>SmartContract: Verifies proof against verification key
-        alt Proof Valid
-            SmartContract->>Blockchain: Logs proof validity & updates ownership status
-            Blockchain->>User: Confirms patent ownership & register IP
-        else Proof Invalid
-            Blockchain->>User: Notifies proof failure
-        end
+   - A ZK circuit to validate the match between the KYC details of the claimant and the patent owner details in the public government repository.
+   - Input: Encrypted KYC details and patent registration information.
+   - ZK Proof Generation: Prove that the encrypted details match the official patent owner’s information without disclosing the actual information.
+   - Verification: Confirm the proof of ownership without exposing sensitive patent details or personal information.
 
-    ```
+   ```mermaid
+   sequenceDiagram
+       participant User
+       participant Platform
+       participant Blockchain
+       participant SmartContract
+       Note over User,SmartContract: Lifecycle of Proving Patent Ownership
+       User->>Platform: Submits patent details & KYC info
+       Platform->>Platform: Validates submission against public records
+       Note over Platform: Circuit Definition
+       Platform->>User: Initiates Trusted Setup
+       User->>User: Generates zk-SNARK proof using private info
+       Note over User: Proof Generation
+       User->>Blockchain: Submits zk-SNARK proof & verification key
+       Blockchain->>SmartContract: Invokes proof verification
+       Note over SmartContract: Proof Verification
+       SmartContract->>SmartContract: Verifies proof against verification key
+       alt Proof Valid
+           SmartContract->>Blockchain: Logs proof validity & updates ownership status
+           Blockchain->>User: Confirms patent ownership & register IP
+       else Proof Invalid
+           Blockchain->>User: Notifies proof failure
+       end
 
-    Notes:
+   ```
 
-    - User = Creator
-    - Platform = RightClickUse (Or any other app)
-    - Blockchain = Optimism / Base / Arbitrum
+   Notes:
 
-    PS: This approach could also be used for MACI’s Sybil problem of who can sign up to vote (proof they are human, proof it’s not sybil)
+   - User = Creator
+   - Platform = RightClickUse (Or any other app)
+   - Blockchain = Optimism / Base / Arbitrum
 
-    - I’d create a PR but as a solo hacker I have limited time
+   PS: This approach could also be used for MACI’s Sybil problem of who can sign up to vote (proof they are human, proof it’s not sybil)
+
+   - I’d create a PR but as a solo hacker I have limited time
+
 2. Copyright (e.g., Videos, Music, Digital Assets)
-    - A ZK circuit that can verify ownership based on creation date, metadata, or registration details without revealing those details is constructed.
-    - Input: Encrypted evidence of copyright registration, digital timestamps + KYC.
-    - ZK Proof Generation: Prove match
-    - Verification: Verify the proof against the public verification key, confirming the creator's claim of copyright ownership.
 
-    PS: No digram but it’ll follow a similar process to 1.
+   - A ZK circuit that can verify ownership based on creation date, metadata, or registration details without revealing those details is constructed.
+   - Input: Encrypted evidence of copyright registration, digital timestamps + KYC.
+   - ZK Proof Generation: Prove match
+   - Verification: Verify the proof against the public verification key, confirming the creator's claim of copyright ownership.
 
+   PS: No digram but it’ll follow a similar process to 1.
 
 3. Trademark
 
@@ -137,21 +139,22 @@ IP Ownership ZK proofs
 - Input: Encrypted evidence of trademark registration and use in commerce.
 - ZK Proof Generation: Prove possession of trademark registration and evidence of use, aligning with official records, without revealing specifics.
 - Verification: Establish proof of trademark ownership, ensuring the claimant’s rights without disclosing detailed evidence.
+
 1. NFT (Non-Fungible Token)
-    - A ZK circuit that confirms the claimant’s controls the PK of the wallet that owns the NFT on the blockchain is constructed
-    - Input: Encrypted details of the NFT and the claimant’s wallet address.
-    - ZK Proof Generation: Prove ownership of the wallet address associated with the NFT without revealing the wallet’s private key or the NFT’s unique identifiers.
-    - Verification: Confirm NFT ownership linked to the claimant’s wallet, ensuring privacy and security of the owner’s blockchain identity.
+   - A ZK circuit that confirms the claimant’s controls the PK of the wallet that owns the NFT on the blockchain is constructed
+   - Input: Encrypted details of the NFT and the claimant’s wallet address.
+   - ZK Proof Generation: Prove ownership of the wallet address associated with the NFT without revealing the wallet’s private key or the NFT’s unique identifiers.
+   - Verification: Confirm NFT ownership linked to the claimant’s wallet, ensuring privacy and security of the owner’s blockchain identity.
 
 Smart Licenses
 
 - Once an IP has been successfully registered, the user can now sell rights to their IP by creating licenses
 - Implements ERC1155 contracts for managing multiple IP licenses, enhancing pricing flexibility and efficiency .
 - Components
-    - SmartLicenseRegistry
-    - SmartLicenseController
-    - SmartLicenseHooks
-    - PS: Definitions of registry and hooks above.
+  - SmartLicenseRegistry
+  - SmartLicenseController
+  - SmartLicenseHooks
+  - PS: Definitions of registry and hooks above.
 
 UseProtocolReverseProxy
 
@@ -164,13 +167,12 @@ UPFrame Header Format
 
      0                   1                   2                   3
     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |VER  |      OP TYPE        | Object |      Function Selector   |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                     Payload (Variable Length)                  |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|VER | OP TYPE | Object | Function Selector |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Payload (Variable Length) |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ```
 
 ### **Explanation**
@@ -178,40 +180,40 @@ UPFrame Header Format
 ### Fields:
 
 1. **Version (VER)**
-    - **Size:** 4 bits
-    - **Purpose:** Identifies the protocol version to ensure compatibility and support for future upgrades.
+   - **Size:** 4 bits
+   - **Purpose:** Identifies the protocol version to ensure compatibility and support for future upgrades.
 2. **Operation Type (OP TYPE)**
-    - **Size:** 8 bits
-    - **Purpose:** Specifies the operation to be performed
-    - Types (To structure better later)
-        1. **Register IP (0x01):** Initiates the registration of intellectual property, such as patents, copyrights, trademarks, or NFTs.
-        2. **Verify KYC (0x02):** Triggers the KYC verification process for a user or entity, interfacing with the KYC smart contract.
-        3. **Create License (0x03):** Initiates the creation of a license for a registered IP, allowing the IP owner to set terms for its use.
-        4. **Transfer IP (0x04):** Facilitates the transfer of ownership or rights of an IP from one party to another.
-        5. **Update IP Details (0x05):** Allows for the updating of IP-related information, such as metadata or ownership details.
-        6. **Submit Proof of Ownership (0x06):** Used for submitting Zero-Knowledge Proofs or other forms of evidence to verify ownership of IP.
-        7. **Revoke License (0x07):** Enables the revocation of a previously issued license, affecting the rights to use the IP.
-        8. **Query IP (0x08):** Facilitates queries about registered IPs, including details about the IP, its ownership, and licensing.
-        9. **Renew KYC (0x09):** Initiates the process for renewing KYC verification, ensuring continued compliance with regulatory requirements.
-        10. **Burn UIP Token (0x0C):** Allows for the burning of a UIP token, removing it from circulation, typically used when an IP is no longer active or has been revoked.
-        11. **Submit Verification Proof (0x0D):** Used to submit verification proofs, particularly in the context of ZK Proofs, to support claims of IP ownership or compliance.
-        12. …. and so on
+   - **Size:** 8 bits
+   - **Purpose:** Specifies the operation to be performed
+   - Types (To structure better later)
+     1. **Register IP (0x01):** Initiates the registration of intellectual property, such as patents, copyrights, trademarks, or NFTs.
+     2. **Verify KYC (0x02):** Triggers the KYC verification process for a user or entity, interfacing with the KYC smart contract.
+     3. **Create License (0x03):** Initiates the creation of a license for a registered IP, allowing the IP owner to set terms for its use.
+     4. **Transfer IP (0x04):** Facilitates the transfer of ownership or rights of an IP from one party to another.
+     5. **Update IP Details (0x05):** Allows for the updating of IP-related information, such as metadata or ownership details.
+     6. **Submit Proof of Ownership (0x06):** Used for submitting Zero-Knowledge Proofs or other forms of evidence to verify ownership of IP.
+     7. **Revoke License (0x07):** Enables the revocation of a previously issued license, affecting the rights to use the IP.
+     8. **Query IP (0x08):** Facilitates queries about registered IPs, including details about the IP, its ownership, and licensing.
+     9. **Renew KYC (0x09):** Initiates the process for renewing KYC verification, ensuring continued compliance with regulatory requirements.
+     10. **Burn UIP Token (0x0C):** Allows for the burning of a UIP token, removing it from circulation, typically used when an IP is no longer active or has been revoked.
+     11. **Submit Verification Proof (0x0D):** Used to submit verification proofs, particularly in the context of ZK Proofs, to support claims of IP ownership or compliance.
+     12. …. and so on
 3. **Object (**protocol component)
-    - **Size:** 4 bits
-    - **Purpose:** Indicates the target smart contract ().
-    - Different components:
-        - UID
-        - KYC
-        - UIP
-        - License
-        - VerificationProof.
+   - **Size:** 4 bits
+   - **Purpose:** Indicates the target smart contract ().
+   - Different components:
+     - UID
+     - KYC
+     - UIP
+     - License
+     - VerificationProof.
 4. **Function Selector**
-    - **Size:** 16 bits
-    - **Purpose:** Directly correlates with the function signature within the smart contract.
-    - This is derived from the first 4 bytes of the hash of the function signature, ensuring precise and secure function calling.
+   - **Size:** 16 bits
+   - **Purpose:** Directly correlates with the function signature within the smart contract.
+   - This is derived from the first 4 bytes of the hash of the function signature, ensuring precise and secure function calling.
 5. **Payload (Args for the function)**
-    - **Size:** Varies
-    - **Purpose:** Contains the arguments for the specified function call, encoded according to the Ethereum ABI. This field follows directly after the header fields, tailored to the function’s requirements.
+   - **Size:** Varies
+   - **Purpose:** Contains the arguments for the specified function call, encoded according to the Ethereum ABI. This field follows directly after the header fields, tailored to the function’s requirements.
 
 ### L2 Ens resolver
 
@@ -228,20 +230,21 @@ UPFrame Header Format
 
 ### Deploying Hooks
 
-| Hex Hook Address | Binary Address (Leading Bits) | Description |
-| --- | --- | --- |
-| 0x8000000000000000000000000000000000000000 | 1000 0000... (bit 159) | BEFORE_IP_REGISTRATION_FLAG |
-| 0x4000000000000000000000000000000000000000 | 0100 0000... (bit 158) | AFTER_IP_REGISTRATION_FLAG |
-| 0x2000000000000000000000000000000000000000 | 0010 0000... (bit 157) | BEFORE_LICENSE_CREATION_FLAG |
-| 0x1000000000000000000000000000000000000000 | 0001 0000... (bit 156) | AFTER_LICENSE_CREATION_FLAG |
-| 0x0800000000000000000000000000000000000000 | 0000 1000... (bit 155) | BEFORE_PRICE_MODIFICATION_FLAG |
-| 0x0400000000000000000000000000000000000000 | 0000 0100... (bit 154) | AFTER_PRICE_MODIFICATION_FLAG |
-| 0x0200000000000000000000000000000000000000 | 0000 0010... (bit 153) | AFTER_IP_TRANSFER_FLAG |
-| 0x0100000000000000000000000000000000000000 | 0000 0001... (bit 152) | BEFORE_IP_TRANSFER_FLAG |
+| Hex Hook Address                           | Binary Address (Leading Bits) | Description                    |
+| ------------------------------------------ | ----------------------------- | ------------------------------ |
+| 0x8000000000000000000000000000000000000000 | 1000 0000... (bit 159)        | BEFORE_IP_REGISTRATION_FLAG    |
+| 0x4000000000000000000000000000000000000000 | 0100 0000... (bit 158)        | AFTER_IP_REGISTRATION_FLAG     |
+| 0x2000000000000000000000000000000000000000 | 0010 0000... (bit 157)        | BEFORE_LICENSE_CREATION_FLAG   |
+| 0x1000000000000000000000000000000000000000 | 0001 0000... (bit 156)        | AFTER_LICENSE_CREATION_FLAG    |
+| 0x0800000000000000000000000000000000000000 | 0000 1000... (bit 155)        | BEFORE_PRICE_MODIFICATION_FLAG |
+| 0x0400000000000000000000000000000000000000 | 0000 0100... (bit 154)        | AFTER_PRICE_MODIFICATION_FLAG  |
+| 0x0200000000000000000000000000000000000000 | 0000 0010... (bit 153)        | AFTER_IP_TRANSFER_FLAG         |
+| 0x0100000000000000000000000000000000000000 | 0000 0001... (bit 152)        | BEFORE_IP_TRANSFER_FLAG        |
+
 - Design hook: Create a smart contract that implements the **`IHooks`** interface and contains the logic for the events you want to hook into.
 - Deploy Using CREATE2: Utilise a deterministic deployment method, such as **`CREATE2`** opcode directly, to ensure the hook's address is predictable. This involves:
-    - Generating a specific "salt" value that, along with your contract bytecode and deployer address, produces the deterministic address.
-    - Using this salt in the **`CREATE2`** deployment command.
+  - Generating a specific "salt" value that, along with your contract bytecode and deployer address, produces the deterministic address.
+  - Using this salt in the **`CREATE2`** deployment command.
 - Mine the Hook Address: The process of "mining" involves finding a salt value that results in a contract address with the desired flag bits set in the leading positions, indicating the permissions for the hook. This might require iterating through multiple salt values until the correct address is generated.
 - **Associate with IP controller**: During IP registration (or through an update action for existing IPs), specify the deterministic address of your hook contract. This links your hook with the IP, enabling it to be called at designated lifecycle events.
 - **Automated Invocation**: Once deployed and associated with an IP, your hook will be automatically called by the IP controller according to the permissions encoded in its address and the events occurring around the IP.
@@ -252,7 +255,6 @@ Note
 pragma solidity ^0.8.0;
 
 interface IUseProtocolHooks {
-    // Interface methods for your hooks, e.g., beforeIPRegistration, afterIPRegistration, etc.
 }
 
 library UseProtocolHooks {
