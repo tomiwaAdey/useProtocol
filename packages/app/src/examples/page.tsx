@@ -22,11 +22,11 @@ const ExampleItems = [
 export default function Home() {
   return (
     <>
-      <h2 className='text-xl'>Nexth Examples</h2>
+      <h2 className='text-xl'>Join the Waitlist</h2>
 
       <p className='mb-4'>
-        All these examples can be found in the main repo at <code>src/app/examples</code> to help you bootstrap
-        development. You can delete the entire folder before deploying your own App.
+        As we continue to build out the platform, we’re working closely with a small group of creators to get things
+        right. If you’re interested in joining up, get on our creator waitlist by submitting a quick proposal.
       </p>
 
       <CardList title='Examples' items={ExampleItems} />

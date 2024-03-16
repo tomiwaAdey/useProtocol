@@ -1,6 +1,7 @@
-export const SITE_NAME = 'Nexth'
-export const SITE_DESCRIPTION = 'Quickly ship Web3 Apps ⚡'
-export const SITE_URL = 'https://nexth.vercel.app'
+export const SITE_NAME = 'Right Click Use'
+export const SITE_DESCRIPTION =
+  'An e-commerce platform that allows creators to easily sell rights associaited to their work'
+export const SITE_URL = 'https://rightclickuse.com'
 
-export const SOCIAL_TWITTER = 'wslyvh'
-export const SOCIAL_GITHUB = 'wslyvh/nexth'
+export const SOCIAL_TWITTER = 'rightclickuse'
+export const SOCIAL_GITHUB = 'tomiwaadey/rightclickuse'
