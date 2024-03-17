@@ -4,6 +4,7 @@ import { ToastProvider } from '@/context/Toaster'
 import { DynamicContextProvider, DynamicWidget } from '@dynamic-labs/sdk-react-core'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
 import { EthereumWalletConnectors } from '@dynamic-labs/ethereum'
+import { getCsrfToken } from 'next-auth/react'
 import type { AppProps } from 'next/app'
 import '@/styles/global.css'
 
@@ -11,12 +12,40 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <DynamicContextProvider
       settings={{
-        environmentId: 'b4238e63-26c1-4254-a69a-a0a0a6873f50',
+        environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENVIRONMENT_ID ?? '',
         walletConnectors: [EthereumWalletConnectors],
+        eventsCallbacks: {
+          onAuthSuccess: async (event) => {
+            const { authToken } = event
+
+            const csrfToken = (await getCsrfToken()) || ''
+
+            fetch('/api/auth/callback/credentials', {
+              mode: 'no-cors',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: `csrfToken=${encodeURIComponent(csrfToken)}&token=${encodeURIComponent(authToken)}`,
+            })
+              .then((res) => {
+                if (res.ok) {
+                  console.log('LOGGED IN', res)
+                  // Handle success - maybe redirect to the home page or user dashboard
+                } else {
+                  // Handle any errors - maybe show an error message to the user
+                  console.error('Failed to log in')
+                }
+              })
+              .catch((error) => {
+                // Handle any exceptions
+                console.error('Error logging in', error)
+              })
+          },
+        },
       }}>
       <DynamicWagmiConnector>
         <ToastProvider>
-          <DynamicWidget />
           <Layout>
             <Component {...pageProps} />
           </Layout>
