@@ -5832,6 +5832,11 @@ lodash.isstring@^4.0.1:
   resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
   integrity sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==
 
+lodash.kebabcase@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.kebabcase/-/lodash.kebabcase-4.1.1.tgz#8489b1cb0d29ff88195cceca448ff6d6cc295c36"
+  integrity sha512-N8XRTIMMqqDgSy4VLKPnJ/+hpGZN+PHQiJnSenYqPaVV/NCqEogTnAdZLQiGKhxX+JCs8waWq2t1XHWKOmlY8g==
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
@@ -6422,6 +6427,14 @@ permissionless@^0.1.10:
   resolved "https://registry.yarnpkg.com/permissionless/-/permissionless-0.1.10.tgz#992da1cb024e86511aaff96bcddccb2ccd1d697b"
   integrity sha512-LVjGVLRfARHhuWSktiO5wd2tA0iTzP+Se8oDKRVyzb5Z/X4jCL+3hqWJMeERkjn3bOK0al2cv55sIABFOo+XKg==
 
+persona@^4.13.0:
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/persona/-/persona-4.13.0.tgz#fff9f2229944bda9ee4c386e3e473fff51d6daf8"
+  integrity sha512-R79RLu3ieZv8Yb4w+e+tuwOSYOSsucQGBrBMNiNRK7aO4DvNX4MoVg8dngnXNxaBMi6mXsyOsRoLjqy1uT4xMA==
+  dependencies:
+    lodash.kebabcase "^4.1.1"
+    qs "^6.11.2"
+
 picocolors@^1, picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
@@ -6737,7 +6750,7 @@ qrcode@1.5.3, qrcode@^1.5.1:
     pngjs "^5.0.0"
     yargs "^15.3.1"
 
-qs@^6.10.3:
+qs@^6.10.3, qs@^6.11.2:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.0.tgz#edd40c3b823995946a8a0b1f208669c7a200db77"
   integrity sha512-trVZiI6RMOkO476zLGaBIzszOdFPnCCXHPG9kn0yuS1uz6xdVxPfZdB3vUig9pxPFDM9BRAgz/YUIVQ1/vuiUg==

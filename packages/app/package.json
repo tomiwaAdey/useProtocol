@@ -45,6 +45,7 @@
     "next": "13.5.4",
     "next-auth": "^4.24.7",
     "permissionless": "^0.1.10",
+    "persona": "^4.13.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^4.11.0",
