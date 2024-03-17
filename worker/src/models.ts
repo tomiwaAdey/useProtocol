@@ -22,8 +22,8 @@ export type NameWithSignature = z.infer<typeof ZodNameWithSignature>;
 export interface NameInKysely {
 	name: string;
 	owner: string;
-	addresses: string | null; // D1 doesn't support JSON yet, we'll have to parse it manually
-	texts: string | null; // D1 doesn't support JSON yet, we'll have to parse it manually
+	addresses: string | null;
+	texts: string | null;
 	contenthash: string | null;
 	createdAt: ColumnType<Date, never, never>;
 	updatedAt: ColumnType<Date, never, string | undefined>;

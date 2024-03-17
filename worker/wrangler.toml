@@ -4,8 +4,8 @@ compatibility_date = "2023-03-15"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "offchaindemo"
-database_id = "6b30bc65-edda-4e25-bb5a-8681b0419031"
+database_name = "rcu"
+database_id = "90f70333-4ae2-4595-ae89-07f2a876dae8"
 
 # The necessary secrets are:
 # - PRIVATE_KEY

@@ -1,4 +1,4 @@
 export interface Env {
-  PRIVATE_KEY: string
-  DB: D1Database
+	PRIVATE_KEY: string;
+	DB: D1Database;
 }
